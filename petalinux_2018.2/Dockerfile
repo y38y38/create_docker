@@ -1,5 +1,5 @@
-#petalinux 2020.1 environment
-FROM ubuntu:18.04
+#petalinux 2018.2 environment
+FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
@@ -11,11 +11,11 @@ ARG UID=1000
 RUN useradd -m -u ${UID} docker-user
 
 #copy file
-COPY petalinux-v2020.1-final-installer.run /home/docker-user/
-COPY design_1_wrapper.xsa /home/docker-user/
+COPY petalinux-v2018.2-final-installer.run /home/docker-user/
+COPY design_1_wrapper.hdf /home/docker-user/
 #RUN locale-gen
 
-RUN chmod +x /home/docker-user/petalinux-v2020.1-final-installer.run
+RUN chmod +x /home/docker-user/petalinux-v2018.2-final-installer.run
 RUN apt-get update && apt-get upgrade -y 
 RUN dpkg --add-architecture i386 && apt-get update
 RUN apt-get -y install \ 
@@ -62,16 +62,17 @@ RUN apt-get -y install \
  libc6-dev:i386 \
  libtool-bin \
  socat \
+ python \
  xz-utils
 
-RUN mkdir -p /opt/pkg/petalinux/2020.1/
-RUN chown docker-user:docker-user /opt/pkg/petalinux/2020.1/
+RUN mkdir -p /opt/pkg/petalinux/2018.2/
+RUN chown docker-user:docker-user /opt/pkg/petalinux/2018.2/
 
 
 USER ${UID}
 RUN bash
 WORKDIR /home/docker-user
-RUN (yes | /home/docker-user/petalinux-v2020.1-final-installer.run --dir /opt/pkg/petalinux/2020.1/ )
+RUN (yes | /home/docker-user/petalinux-v2018.2-final-installer.run  /opt/pkg/petalinux/2018.2/ )
 
 #build petalinux
 #COPY design_1_wrapper.xsa /home/docker-user/

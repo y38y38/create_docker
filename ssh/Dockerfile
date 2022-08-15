@@ -54,7 +54,11 @@ RUN dpkg --add-architecture i386 && \
         vim \
         xvfb \
         bc \
-        rsync
+        rsync \
+	x11-apps \
+	iputils-ping \
+	net-tools \
+	openssh-server
 
 ARG TZ=Asia/Tokyo
 ARG USERNAME=user
@@ -68,19 +72,36 @@ RUN groupadd -g $GID $GROUPNAME && \
     echo "$USERNAME   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 	
-RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN echo 'root:s' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 COPY petalinux-v2022.1-04191534-installer.run /home/user/
-COPY xilinx-zcu106-v2022.1-04191534.bsp /home/user/
+COPY xilinx-k26-som-v2022.1-04191534.bsp /home/user/
 RUN chmod +x /home/user/petalinux-v2022.1-04191534-installer.run
 RUN mkdir -p /opt/pkg/petalinux/2022.1/
+RUN mkdir -p /opt/pkg/petalinux/2021.2/
+RUN mkdir -p /opt/pkg/petalinux/2021.1/
+RUN mkdir -p /opt/pkg/petalinux/2020.3/
+RUN mkdir -p /opt/pkg/petalinux/2020.2/
+RUN mkdir -p /opt/pkg/petalinux/2020.1/
+RUN mkdir -p /opt/pkg/petalinux/2018.3/
 RUN chown user:user /opt/pkg/petalinux/2022.1/
+RUN chown user:user /opt/pkg/petalinux/2021.2/
+RUN chown user:user /opt/pkg/petalinux/2021.1/
+RUN chown user:user /opt/pkg/petalinux/2020.3/
+RUN chown user:user /opt/pkg/petalinux/2020.2/
+RUN chown user:user /opt/pkg/petalinux/2020.1/
+RUN chown user:user /opt/pkg/petalinux/2018.3/
+RUN mkdir -p /home/user/work
+RUN chown user:user /home/user/work
+RUN mkdir -p /tools/Xilinx/
+RUN chown user:user /tools/Xilinx
+
 RUN locale-gen en_US.UTF-8 && \
     update-locale
-ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
+
+ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 DISPLAY=:0
 
 
 # SSH login fix. Otherwise user is kicked off after login

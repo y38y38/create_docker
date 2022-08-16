@@ -11,6 +11,10 @@ ssh user@127.0.0.1 -p 2022
 sudo docker run -d -P -v /home/y/work:/home/user/work --name peta20221 aa
 
 #docker image作成方法
-docker commit docker_name image_name
+docker commit container_id image_name
+
+
+#docker image更新
+docker commit container_id repositoty:tag
 
 

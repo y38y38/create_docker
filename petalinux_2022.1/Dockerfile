@@ -58,7 +58,8 @@ RUN dpkg --add-architecture i386 && \
 	x11-apps \
 	iputils-ping \
 	net-tools \
-	openssh-server
+	openssh-server \
+	libtinfo-dev
 
 ARG TZ=Asia/Tokyo
 ARG USERNAME=user
@@ -101,7 +102,7 @@ RUN chown user:user /tools/Xilinx
 RUN locale-gen en_US.UTF-8 && \
     update-locale
 
-ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 DISPLAY=:0
+ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
 
 
 # SSH login fix. Otherwise user is kicked off after login
@@ -109,6 +110,7 @@ ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 DISPLAY=:0
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
+RUN echo "export DISPLAY=:0" >> /home/user/.bashrc
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

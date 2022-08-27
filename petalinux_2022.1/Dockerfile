@@ -40,6 +40,7 @@ RUN dpkg --add-architecture i386 && \
         file \
         fonts-noto-cjk \
         git \
+        git-lfs \
         gosu \
         lib32z1-dev \
         libglib2.0-dev \
@@ -55,10 +56,12 @@ RUN dpkg --add-architecture i386 && \
         xvfb \
         bc \
         rsync \
+	libncurses5 \
 	x11-apps \
 	iputils-ping \
 	net-tools \
 	openssh-server \
+	csh \
 	libtinfo-dev
 
 ARG TZ=Asia/Tokyo

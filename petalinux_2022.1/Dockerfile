@@ -62,6 +62,8 @@ RUN dpkg --add-architecture i386 && \
 	net-tools \
 	openssh-server \
 	csh \
+	libswt-gtk-4-jni \
+	dbus-x11 \
 	libtinfo-dev
 
 ARG TZ=Asia/Tokyo

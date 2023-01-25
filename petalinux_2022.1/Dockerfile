@@ -64,6 +64,7 @@ RUN dpkg --add-architecture i386 && \
 	csh \
 	libswt-gtk-4-jni \
 	dbus-x11 \
+	global \
 	libtinfo-dev
 
 ARG TZ=Asia/Tokyo
